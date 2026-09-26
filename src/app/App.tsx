@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
+import { CircleUserRound, MapPinned, ShieldCheck, Users } from 'lucide-react'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { BottomNavigation } from '../components/navigation/BottomNavigation'
 import { ActiveSosPanel } from '../components/sos/ActiveSosPanel'
 import { SosCountdown } from '../components/sos/SosCountdown'
 import { HomePage } from '../pages/HomePage'
+import { FeaturePage } from '../pages/FeaturePage'
 import type { SosState } from '../types/sos'
 
 export default function App() {
@@ -40,7 +43,16 @@ export default function App() {
   return (
     <main className="app-shell" aria-label="Beacon safety app">
       <div className="app-frame">
-        {sosState === 'idle' && <HomePage onStartSos={startSos} />}
+        {sosState === 'idle' && (
+          <Routes>
+            <Route path="/" element={<HomePage onStartSos={startSos} />} />
+            <Route path="/map" element={<FeaturePage title="Map" description="Live safety incidents will appear here after the map service is connected." icon={MapPinned} />} />
+            <Route path="/community" element={<FeaturePage title="Community" description="Verified local updates and discussions will appear here when community services are connected." icon={Users} />} />
+            <Route path="/authorities" element={<FeaturePage title="Authorities" description="Verified emergency and public-safety contacts will appear here when the directory is connected." icon={ShieldCheck} />} />
+            <Route path="/profile" element={<FeaturePage title="Profile" description="Your profile, trusted contacts, and privacy controls will appear here after authentication is connected." icon={CircleUserRound} />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        )}
         {sosState === 'countdown' && <SosCountdown countdown={countdown} onCancel={resetSos} />}
         {sosState === 'demo-active' && <ActiveSosPanel onEnd={resetSos} />}
         {sosState === 'idle' && <BottomNavigation />}

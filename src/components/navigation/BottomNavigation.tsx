@@ -1,13 +1,23 @@
-import { CircleUserRound, Home, MessageCircle, Users } from 'lucide-react'
+import { CircleUserRound, Home, MapPinned, ShieldCheck, Users } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
+
+const destinations = [
+  { label: 'Home', path: '/', icon: Home, end: true },
+  { label: 'Map', path: '/map', icon: MapPinned },
+  { label: 'Community', path: '/community', icon: Users },
+  { label: 'Authorities', path: '/authorities', icon: ShieldCheck },
+  { label: 'Profile', path: '/profile', icon: CircleUserRound },
+]
 
 export function BottomNavigation() {
   return (
     <nav className="bottom-nav" aria-label="Main navigation">
-      <button className="active"><Home size={18} /><span>Home</span></button>
-      <button><Users size={18} /><span>Contacts</span></button>
-      <button><MessageCircle size={18} /><span>Chat</span></button>
-      <button><CircleUserRound size={18} /><span>Profile</span></button>
+      {destinations.map(({ label, path, icon: Icon, end }) => (
+        <NavLink key={path} to={path} end={end} aria-label={label}>
+          <Icon size={18} />
+          <span>{label}</span>
+        </NavLink>
+      ))}
     </nav>
   )
 }
-
