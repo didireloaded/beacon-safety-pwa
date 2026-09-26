@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { MapPinned, Users } from 'lucide-react'
+import { lazy, Suspense } from 'react'
+import { Users } from 'lucide-react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { BottomNavigation } from '../components/navigation/BottomNavigation'
 import { ActiveSosPanel } from '../components/sos/ActiveSosPanel'
@@ -7,6 +8,7 @@ import { HomePage } from '../pages/HomePage'
 import { FeaturePage } from '../pages/FeaturePage'
 import { AuthoritiesPage } from '../pages/AuthoritiesPage'
 import { ProfilePage } from '../pages/ProfilePage'
+const MapPage = lazy(() => import('../pages/MapPage').then((module) => ({ default: module.MapPage })))
 import type { SosState } from '../types/sos'
 
 export default function App() {
@@ -23,7 +25,7 @@ export default function App() {
         {sosState === 'idle' && (
           <Routes>
             <Route path="/" element={<HomePage onStartSos={startSos} />} />
-            <Route path="/map" element={<FeaturePage title="Map" description="Live safety incidents will appear here after the map service is connected." icon={MapPinned} />} />
+            <Route path="/map" element={<Suspense fallback={<div className="route-loading" role="status">Loading map…</div>}><MapPage /></Suspense>} />
             <Route path="/community" element={<FeaturePage title="Community" description="Verified local updates and discussions will appear here when community services are connected." icon={Users} />} />
             <Route path="/authorities" element={<AuthoritiesPage />} />
             <Route path="/profile" element={<ProfilePage />} />

@@ -36,6 +36,15 @@ ship emergency phone numbers in the frontend bundle.
 3. Add authority records through an authenticated admin workflow. A record
    cannot be marked verified without both `verified_at` and `source_url`.
 
+The Map route uses Mapbox GL JS. Set `VITE_MAPBOX_ACCESS_TOKEN` to a restricted
+public token and `VITE_MAPBOX_STYLE_URL` to the Beacon style before building.
+Mapbox receives map tile requests when the map is opened, and receives the
+search text for area searches. Location is requested only after the user
+presses the location control; the coordinates are used to recenter the browser
+map, and Mapbox receives subsequent tile requests for the displayed area.
+Beacon does not send a separate location record. Mapbox performance metrics
+collection is disabled in the client.
+
 The profile migration creates one private profile row for each new Supabase
 Auth user. Configure the deployed `/profile` URL as an allowed Auth redirect
 URL in Supabase before using passwordless email sign-in. Accounts are optional:
