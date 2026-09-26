@@ -1,0 +1,13 @@
+{
+  "name": "Beacon Safety",
+  "short_name": "Beacon",
+  "description": "A local-first personal safety app for Windhoek.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f7f4",
+  "theme_color": "#f8f7f4",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
