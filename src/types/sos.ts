@@ -1,2 +1,1 @@
-export type SosState = 'idle' | 'countdown' | 'sent'
-
+export type SosState = 'idle' | 'countdown' | 'demo-active'

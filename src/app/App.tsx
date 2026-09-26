@@ -8,24 +8,32 @@ import type { SosState } from '../types/sos'
 export default function App() {
   const [sosState, setSosState] = useState<SosState>('idle')
   const [countdown, setCountdown] = useState(5)
+  const [deadline, setDeadline] = useState<number | null>(null)
 
   useEffect(() => {
-    if (sosState !== 'countdown') return
-    if (countdown === 0) {
-      setSosState('sent')
-      return
+    if (sosState !== 'countdown' || deadline === null) return
+    const updateCountdown = () => {
+      const secondsLeft = Math.max(0, Math.ceil((deadline - Date.now()) / 1000))
+      setCountdown(secondsLeft)
+      if (secondsLeft === 0) {
+        setDeadline(null)
+        setSosState('demo-active')
+      }
     }
-    const timer = window.setTimeout(() => setCountdown((value) => value - 1), 1000)
-    return () => window.clearTimeout(timer)
-  }, [countdown, sosState])
+    updateCountdown()
+    const timer = window.setInterval(updateCountdown, 100)
+    return () => window.clearInterval(timer)
+  }, [deadline, sosState])
 
   const startSos = () => {
     setCountdown(5)
+    setDeadline(Date.now() + 5000)
     setSosState('countdown')
   }
 
   const resetSos = () => {
     setCountdown(5)
+    setDeadline(null)
     setSosState('idle')
   }
 
@@ -34,8 +42,8 @@ export default function App() {
       <div className="app-frame">
         {sosState === 'idle' && <HomePage onStartSos={startSos} />}
         {sosState === 'countdown' && <SosCountdown countdown={countdown} onCancel={resetSos} />}
-        {sosState === 'sent' && <ActiveSosPanel onEnd={resetSos} />}
-        <BottomNavigation />
+        {sosState === 'demo-active' && <ActiveSosPanel onEnd={resetSos} />}
+        {sosState === 'idle' && <BottomNavigation />}
         <span className="home-indicator" aria-hidden="true" />
       </div>
     </main>

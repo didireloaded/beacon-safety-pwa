@@ -18,9 +18,8 @@ export function SosCountdown({ countdown, onCancel }: SosCountdownProps) {
           </span>
         ))}
       </div>
-      <div className="notice-card"><MapPin size={18} /><span>Your latest location will be included when the countdown ends.</span></div>
+      <div className="notice-card"><MapPin size={18} /><span>This demo does not access or share your location.</span></div>
       <button className="primary-action" onClick={onCancel}>I’m safe — cancel SOS</button>
     </div>
   )
 }
-
