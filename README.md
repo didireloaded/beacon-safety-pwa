@@ -5,7 +5,7 @@ Beacon is a privacy-first, installable community-safety PWA for Windhoek, Namibi
 The current repository contains an early interactive interface prototype with:
 
 - A trusted-circle home screen
-- A five-second SOS demonstration flow
+- A one-tap, clearly labelled SOS preview flow
 - Responsive PWA presentation
 - An install manifest and offline service worker
 - No analytics or telemetry
