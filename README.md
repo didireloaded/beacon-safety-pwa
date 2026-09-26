@@ -36,6 +36,11 @@ ship emergency phone numbers in the frontend bundle.
 3. Add authority records through an authenticated admin workflow. A record
    cannot be marked verified without both `verified_at` and `source_url`.
 
+The profile migration creates one private profile row for each new Supabase
+Auth user. Configure the deployed `/profile` URL as an allowed Auth redirect
+URL in Supabase before using passwordless email sign-in. Accounts are optional:
+the public routes and SOS preview remain available while signed out.
+
 The current screen uses manual town selection. Automatic GPS and reverse
 geocoding are intentionally not enabled yet.
 
@@ -44,4 +49,6 @@ geocoding are intentionally not enabled yet.
 The current prototype does not include analytics, crash reporting, or remote
 fonts. When Supabase environment variables are configured, the Authorities
 screen sends the selected town and directory query to that Supabase instance.
-It does not request device location.
+Passwordless sign-in sends the supplied email address to that same instance,
+and authenticated profile fields are stored there. It does not request device
+location.

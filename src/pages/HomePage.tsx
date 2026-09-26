@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Bell, CircleHelp, Navigation } from 'lucide-react'
 import { Avatar } from '../components/shared/Avatar'
+import { useAuth } from '../contexts/AuthContext'
 import { demoContacts } from '../data/demoContacts'
 
 type HomePageProps = { onStartSos: () => void }
@@ -54,6 +55,14 @@ function HoldSosButton({ onComplete }: { onComplete: () => void }) {
 }
 
 export function HomePage({ onStartSos }: HomePageProps) {
+  const { user, profile } = useAuth()
+  const displayName = profile?.full_name?.trim() || user?.email?.split('@')[0] || 'there'
+  const initials = displayName === 'there'
+    ? 'B'
+    : displayName.split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toLocaleUpperCase()
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
+
   return (
     <div className="screen home-screen">
       <header className="topbar">
@@ -64,8 +73,8 @@ export function HomePage({ onStartSos }: HomePageProps) {
         </div>
       </header>
       <div className="greeting-row">
-        <div><span>Good evening</span><h2>Hi, Selma!</h2></div>
-        <Avatar initials="SN" tone="#384558" small />
+        <div><span>{greeting}</span><h2>Hi, {displayName}!</h2></div>
+        <Avatar initials={initials} tone="#384558" small />
       </div>
       <section className="circle-section" aria-label="Demo trusted contacts">
         <div className="section-label"><span>Your circle</span><small>Demo contacts</small></div>
